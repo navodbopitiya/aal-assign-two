@@ -1,13 +1,18 @@
 package mazeGenerator;
 
+import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.EmptyStackException;
 import java.util.Random;
 import java.util.Stack;
 
+import maze.Cell;
 import maze.Maze;
 
 public class RecursiveBacktrackerGenerator implements MazeGenerator {
 
+	protected static final PrintStream outStream = System.out;
 	@Override
 	public void generateMaze(Maze maze) {
 		// TODO Auto-generated method stub
@@ -32,37 +37,64 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator {
 		
 	// PICK a random unvisited neighbouring cell and MOVE to that neighbor including removing the wall between the cell
 		
-		
-		// access all of the current cell's neighbor through neigh 
-		// if the cell is not equal to null and it is not yet visited then add it into stack and mark it as visited
-		// remove the wall
-		// update the current row & current column value
-		
-		for(int i = 0; i < maze.map[currentRow][currentColumn].neigh.length; i++ ) {
-			
-			if(maze.map[currentRow][currentColumn].neigh[i] != null &&  isVisited.contains(maze.map[currentRow][currentColumn].neigh[i]) == false) {
-				
-				isVisited.add(maze.map[currentRow + maze.deltaR[i]][currentColumn + maze.deltaC[i]]);
-				path.push(maze.map[currentRow + maze.deltaR[i]][currentColumn + maze.deltaC[i]]);
-				
-				// removing the wall
-				maze.map[currentRow][currentColumn].wall[i].present = false;
-				
-				// update current row & current column value here
-				
-			} 
-			
-			// BACKTRACK happens when a cell goes through every possible neighbor and all of them are marked visited
-			// path.pop() then try the for loop again to check every possible neighbor
-			// must do this RECURSIVELY
-				
-		}
+		recursion(maze, path, isVisited);
 		
 
-
+		
+	
 	} // end of generateMaze()
 	
+			
+	public void recursion(Maze maze, Stack path, ArrayList isVisited) {
+				
+		if(!path.isEmpty()) {
+			
+			// use the cell that is currently on top of the stack
+			Cell currentCell = (Cell) path.peek();		
 		
+			// check to see if there is an available neighbor
+				boolean isThereNeighbor = false;
+		
+		  Integer[] randDirs = generateRandomDirections();
+		  
+		  // Examine each direction
+		     for (int i = 0; i < randDirs.length; i++) {
+		    
+		        	 if(currentCell.neigh[randDirs[i]] != null && isVisited.contains(currentCell.neigh[randDirs[i]]) == false)
+		        	 {
+		        		 // add the new cell to the path and mark it visited
+		        		 	isVisited.add(currentCell.neigh[randDirs[i]]);
+							path.push(currentCell.neigh[randDirs[i]]);
+			
+							
+							// removing the wall
+							currentCell.wall[randDirs[i]].present = false;
+			
+							
+							isThereNeighbor = true;
+			
+							recursion(maze,path,isVisited);
+			        	 
+		        	 }
+		        	
+		    	 		    	 
+		 		if(i == (randDirs.length-1) && isThereNeighbor == false ) {
+					// if you reach the last neighbor then there is no available neighbor then must backtrack
+		 			// remove the current cell from the stack so that the previous cell that was visited will be 
+		 			// checked again if there's available neighbor
+					path.pop();
+					recursion(maze,path,isVisited);
+											
+				}
+	
+		   }
+		}
+		
+		
+		
+		
+		
+}
 	public int generateRow(int maxRow) {
 		
 		Random random = new Random();
@@ -82,6 +114,15 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator {
 		return column;
 		
 	}
+	
+	public Integer[] generateRandomDirections() {
+	      ArrayList<Integer> randoms = new ArrayList<Integer>();
+	      for (int i = 0; i < 6; i++)
+	           randoms.add(i);
+	      Collections.shuffle(randoms);
+	 
+	     return randoms.toArray(new Integer[6]);
+	 }
 
 	
 } // end of class RecursiveBacktrackerGenerator
