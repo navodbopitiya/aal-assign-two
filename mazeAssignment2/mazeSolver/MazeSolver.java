@@ -3,7 +3,7 @@ package mazeSolver;
 import maze.Maze;
 
 /**
- * Interface of a maze solveer.
+ * Interface of a maze solver.
  * 
  * @author Youhan Xia
  * @author Jeffrey Chan

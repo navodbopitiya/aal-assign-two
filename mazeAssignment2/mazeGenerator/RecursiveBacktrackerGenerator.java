@@ -12,7 +12,13 @@ import maze.Maze;
 
 public class RecursiveBacktrackerGenerator implements MazeGenerator {
 
-	protected static final PrintStream outStream = System.out;
+	/** NOT YET WORKING W/ TUNNELS! **/
+	/** BASED ON DISCUSSION BOARD: 
+	 * Well, you need to create a perfect maze, then add the tunnel/s - 
+	 * so they shouldn't disrupt anything. If the maze is not perfect, you may have some other bug.
+	 * BUT, when the tunnel maze is initialized then IT WILL include the tunnels
+	 */
+	
 	@Override
 	public void generateMaze(Maze maze) {
 		// TODO Auto-generated method stub
