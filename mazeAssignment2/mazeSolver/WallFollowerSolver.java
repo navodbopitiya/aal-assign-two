@@ -41,8 +41,55 @@ public class WallFollowerSolver implements MazeSolver {
 			Cell current = (Cell) path.peek();
 			
 			
-			/** WORKS WITH NORMAL MAZES **/
-			/** BUGGY WITH HEX MAZES, I THINK IT'S MOST LIKELY SOMETHING TO DO WITH THE DIRECTIONS **/
+			/** WORKS WITH NORMAL MAZES && HEX **/
+		
+			
+			
+			if(maze.type == maze.HEX)
+			{
+				if(current.neigh[maze.WEST] != null && current.wall[maze.WEST].present == false && explored.contains(current.neigh[maze.WEST]) == false)
+				{
+					path.push(current.neigh[maze.WEST]);
+					explored.add(current.neigh[maze.WEST]);
+					maze.drawFtPrt(current.neigh[maze.WEST]);
+					
+				} else if (current.neigh[maze.NORTHWEST] != null && current.wall[maze.NORTHWEST].present == false  && explored.contains(current.neigh[maze.NORTHWEST]) == false)
+				{
+					
+					path.push(current.neigh[maze.NORTHWEST]);
+					explored.add(current.neigh[maze.NORTHWEST]);
+					maze.drawFtPrt(current.neigh[maze.NORTHWEST]);
+					
+				} else if(current.neigh[maze.NORTHEAST] != null && current.wall[maze.NORTHEAST].present == false  && explored.contains(current.neigh[maze.NORTHEAST]) == false) {
+					
+					path.push(current.neigh[maze.NORTHEAST]);
+					explored.add(current.neigh[maze.NORTHEAST]);
+					maze.drawFtPrt(current.neigh[maze.NORTHEAST]);
+					
+				} else if(current.neigh[maze.EAST] != null && current.wall[maze.EAST].present == false  && explored.contains(current.neigh[maze.EAST]) == false) {
+					
+					path.push(current.neigh[maze.EAST]);
+					explored.add(current.neigh[maze.EAST]);
+					maze.drawFtPrt(current.neigh[maze.EAST]);
+					
+				} else if(current.neigh[maze.SOUTHEAST] != null && current.wall[maze.SOUTHEAST].present == false  && explored.contains(current.neigh[maze.SOUTHEAST]) == false) {
+					
+					path.push(current.neigh[maze.SOUTHEAST]);
+					explored.add(current.neigh[maze.SOUTHEAST]);
+					maze.drawFtPrt(current.neigh[maze.SOUTHEAST]);
+					
+				} else if(current.neigh[maze.SOUTHWEST] != null && current.wall[maze.SOUTHWEST].present == false  && explored.contains(current.neigh[maze.SOUTHWEST]) == false) {
+					
+					path.push(current.neigh[maze.SOUTHWEST]);
+					explored.add(current.neigh[maze.SOUTHWEST]);
+					maze.drawFtPrt(current.neigh[maze.SOUTHWEST]);
+					
+				} else {
+					
+					path.pop();
+					
+				}
+			} else {
 			
 			// Prioritizes going left of the maze
 			
@@ -79,6 +126,7 @@ public class WallFollowerSolver implements MazeSolver {
 			}
 				
 			
+		}
 		}
 		}
 		
