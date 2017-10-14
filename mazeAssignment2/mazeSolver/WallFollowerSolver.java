@@ -42,9 +42,7 @@ public class WallFollowerSolver implements MazeSolver {
 			
 			
 			/** WORKS WITH NORMAL MAZES && HEX **/
-		
-			
-			
+								
 			if(maze.type == maze.HEX)
 			{
 				if(current.neigh[maze.WEST] != null && current.wall[maze.WEST].present == false && explored.contains(current.neigh[maze.WEST]) == false)
@@ -89,7 +87,9 @@ public class WallFollowerSolver implements MazeSolver {
 					path.pop();
 					
 				}
-			} else {
+			} 
+			else
+			{
 			
 			// Prioritizes going left of the maze
 			
@@ -126,8 +126,8 @@ public class WallFollowerSolver implements MazeSolver {
 			}
 				
 			
-		}
-		}
+				}
+			}
 		}
 		
         
@@ -147,9 +147,7 @@ public class WallFollowerSolver implements MazeSolver {
 			return true;
 		}
 		
-
-	
-		
+			
 		return false;
 	} // end if isSolved()
 	
