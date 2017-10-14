@@ -11,71 +11,100 @@ public class ModifiedPrimsGenerator implements MazeGenerator {
 		// TODO Auto-generated method stub
 
 		int maxRows = maze.sizeR;
-		int maxColumns = maze.sizeC;
+		int maxCols = maze.sizeC;
+
 		Random random = new Random();
+		int randomValue;
+		Cell rndCellB;
+		Cell rndCellC;
+		ArrayList<Cell> visitedCells = new ArrayList<Cell>();
 
+		//Pick a random starting cell
+		Cell startingCell = maze.map[random.nextInt(maxRows)][random.nextInt(maxCols)];
 
-		//1-Pick a random starting cell
-		int currentRow = random.nextInt(maxRows);
-		int currentColumn = random.nextInt(maxColumns);
-
-
-		//2-Add to set Z
+		//Add to Set Z - IN SET
 		ArrayList<Cell> cellSetZ = new ArrayList<Cell>();
-		cellSetZ.add(maze.map[currentRow][currentColumn]);
+		cellSetZ.add(startingCell);
 
-		//3-Put all neighbouring cells of starting cell to set F
+		//Put all neighbouring cells of starting cell to Set F - FRONTIER SET
 		ArrayList<Cell> cellSetF = new ArrayList<Cell>();
-		Cell currentCell = maze.map[currentRow][currentColumn];
 		int i = 0;
-		while(currentCell.neigh[i] != null){
-			cellSetF.add(currentCell.neigh[i]);
+		while(i < startingCell.neigh.length){
+			if(startingCell.neigh[i] != null){
+				cellSetF.add(startingCell.neigh[i]);
+			}
 			i++;
 		}
 
-		while(cellSetZ.size() != maze.map.length){
-			//4-Select a Random cell C from set F and remove it
-			Cell randomCellC = cellSetF.get(random.nextInt(cellSetF.size()));
-			cellSetF.remove(randomCellC);
+		while(!cellSetF.isEmpty()){
+			
+			//Select a random cell C from set F and remove it
+			randomValue = random.nextInt(cellSetF.size());
+			rndCellC = cellSetF.get(randomValue);
+			cellSetF.remove(rndCellC);
 
-			//5-Randomly select a cell b from set Z and adjacent to cell C
-			int cellDir = random.nextInt(cellSetZ.size());
-			Cell randomCellB =  cellSetZ.get(cellDir);
-
-			boolean isAdjacent = checkAdjacent(randomCellC, randomCellB);
+			//Randomly select a cell b from setZ and adjacent to cell c
+			randomValue = random.nextInt(cellSetZ.size());
+			rndCellB = cellSetZ.get(randomValue);
+			boolean isAdjacent = checkAdjacent(rndCellB, rndCellC);
 			while(!isAdjacent){
-				cellDir = random.nextInt(cellSetZ.size());
-				randomCellB = cellSetZ.get(cellDir);
-				isAdjacent = checkAdjacent(randomCellC, randomCellB);
+				randomValue = random.nextInt(cellSetZ.size());
+				rndCellB = cellSetZ.get(randomValue);
+				isAdjacent = checkAdjacent(rndCellB, rndCellC);
 			}
 
-			//6-Carve path between c and b
-			randomCellB.wall[cellDir].present = false;
+			//Carve path between c and b
+			rndCellC.wall[getNeighbourId(rndCellB,rndCellC)].present = false;
+			visitedCells.add(rndCellC);
 
-			//7-Add cell c to set Z
-			cellSetZ.add(randomCellC);
-			//8-Add neighbours of cell C to the set F
+			//Add cell c to set Z
+			cellSetZ.add(rndCellC);
+
+			//Add neighbours of cell c to the set F
 			int j = 0;
-			while(randomCellC.neigh[j] != null){
-				cellSetF.add(randomCellC.neigh[i]);
+			while(j < rndCellC.neigh.length){
+				if(rndCellC.neigh[j] != null && !(visitedCells.contains(rndCellC.neigh[j]))){
+					cellSetF.add(rndCellC.neigh[j]);
+				}
 				j++;
 			}
 		}
 
-	} // end of generateMaze()
+	}
 
-	boolean checkAdjacent(Cell c, Cell b) {
+	boolean checkAdjacent(Cell b, Cell c){
 		boolean isAdjacent = false;
+		for(int i = 0; i < b.neigh.length; i++){
+			if(b.neigh[i] != null){
+				if(b.neigh[i].equals(c)){
+					isAdjacent = true;
+					return isAdjacent;
+				}
+			}
+		}
+		return isAdjacent;
+	}
+
+	int getNeighbourId(Cell b, Cell c) {
+		int neighId = 0;
 		for (int i = 0; i < c.neigh.length; i++) {
 			if(c.neigh[i] != null){
 				if (c.neigh[i].equals(b)) {
-					isAdjacent = true;
+					neighId = i;
 				}
 			}
 
 		}
-		return isAdjacent;
-
+		return neighId;
 	}
+	
+	boolean checkVisited(Cell b, ArrayList<Cell> visitedCells){
+		boolean visited = false;
+		if(visitedCells.contains(b)){
+			visited = true;
+		}
+		return visited;
+	}
+
 
 } // end of class ModifiedPrimsGenerator
