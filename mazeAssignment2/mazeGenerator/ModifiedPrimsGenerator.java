@@ -12,6 +12,8 @@ public class ModifiedPrimsGenerator implements MazeGenerator {
 
 		int maxRows = maze.sizeR;
 		int maxCols = maze.sizeC;
+		
+		int dir = 0;
 
 		Random random = new Random();
 		int randomValue;
@@ -63,7 +65,7 @@ public class ModifiedPrimsGenerator implements MazeGenerator {
 			//Add neighbours of cell c to the set F
 			int j = 0;
 			while(j < rndCellC.neigh.length){
-				if(rndCellC.neigh[j] != null && !(visitedCells.contains(rndCellC.neigh[j]))){
+				if(rndCellC.neigh[j] != null && !(visitedCells.contains(rndCellC.neigh[j])) && cellSetF.contains(rndCellC.neigh[j]) == false ){
 					cellSetF.add(rndCellC.neigh[j]);
 				}
 				j++;
