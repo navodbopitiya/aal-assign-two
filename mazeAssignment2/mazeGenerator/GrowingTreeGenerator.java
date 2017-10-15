@@ -25,7 +25,18 @@ public class GrowingTreeGenerator implements MazeGenerator {
 
 
 		//1 - Pick a random starting cell - done
-		Cell startingCell = maze.map[random.nextInt(maxRows)][random.nextInt(maxCols)];
+		int randomRow = random.nextInt(maxRows);
+		int randomCol = random.nextInt(maxCols);
+		while(maze.map[randomRow][randomCol] == null)
+		{
+			randomRow = random.nextInt(maxRows);
+			randomCol = random.nextInt(maxCols);
+		}
+		
+		Cell startingCell = maze.map[randomRow][randomCol];
+		
+		
+		
 
 		//2- Add it to CellSetZ - done
 		ArrayList<Cell> cellSetZ = new ArrayList<Cell>();
