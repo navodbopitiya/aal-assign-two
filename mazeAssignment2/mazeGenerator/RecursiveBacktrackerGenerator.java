@@ -62,14 +62,10 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator {
 				  
 				if(currentCell.tunnelTo != null)
 				{
-					// this means that the current cell is a tunnel 
-			       // need to access the neighbors
-				
-					
-					if(tunnelCells.contains(currentCell) == false && tunnelCells.contains(currentCell.tunnelTo) == false)
-					{
-						tunnelCells.add(currentCell);
-					}
+					// The current cell aka the top of the stack is a tunnel
+					// change the the top of the stack to the end of the tunnel
+					visitedCells.add(currentCell.tunnelTo);
+					path.push(currentCell.tunnelTo);
 					
 				}
 				
@@ -112,9 +108,7 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator {
 		  
 	  } // every cell is visited
 	  
-	  
-	  changeNeighOfTunnels(tunnelCells, maze); 
-	
+	  		
 	} // end of generateMaze()
 	
 	
