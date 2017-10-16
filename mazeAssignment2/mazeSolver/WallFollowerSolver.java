@@ -40,9 +40,6 @@ public class WallFollowerSolver implements MazeSolver {
 			if(!path.isEmpty()) {	
 			Cell current = (Cell) path.peek();
 			
-			
-			/** WORKS WITH NORMAL MAZES && HEX **/
-								
 			if(maze.type == maze.HEX)
 			{
 				if(current.neigh[maze.WEST] != null && current.wall[maze.WEST].present == false && explored.contains(current.neigh[maze.WEST]) == false)
@@ -88,42 +85,71 @@ public class WallFollowerSolver implements MazeSolver {
 					
 				}
 			} 
-			else
+			else 
 			{
 			
 			// Prioritizes going left of the maze
 			
 			// checks if the maze is not null, there isnt a wall present and its not explored by the solver yet
-			if(current.neigh[maze.WEST] != null && current.wall[maze.WEST].present == false && explored.contains(current.neigh[maze.WEST]) == false)
-			{
-				path.push(current.neigh[maze.WEST]);
-				explored.add(current.neigh[maze.WEST]);
-				maze.drawFtPrt(current.neigh[maze.WEST]);
+				if(current.neigh[maze.WEST] != null && current.wall[maze.WEST].present == false && explored.contains(current.neigh[maze.WEST]) == false)
+				{
+					path.push(current.neigh[maze.WEST]);
+					explored.add(current.neigh[maze.WEST]);
+					maze.drawFtPrt(current.neigh[maze.WEST]);
+					
+					if(current.neigh[maze.WEST].tunnelTo != null)
+					{
+						path.push(current.neigh[maze.WEST].tunnelTo);
+						explored.add(current.neigh[maze.WEST].tunnelTo);
+						maze.drawFtPrt(current.neigh[maze.WEST].tunnelTo);
+					}
 				
-			} else if (current.neigh[maze.NORTH] != null && current.wall[maze.NORTH].present == false  && explored.contains(current.neigh[maze.NORTH]) == false)
-			{
+				} else if (current.neigh[maze.NORTH] != null && current.wall[maze.NORTH].present == false  && explored.contains(current.neigh[maze.NORTH]) == false)
+				{
 				
-				path.push(current.neigh[maze.NORTH]);
-				explored.add(current.neigh[maze.NORTH]);
-				maze.drawFtPrt(current.neigh[maze.NORTH]);
+					path.push(current.neigh[maze.NORTH]);
+					explored.add(current.neigh[maze.NORTH]);
+					maze.drawFtPrt(current.neigh[maze.NORTH]);
+					
+					
+					if(current.neigh[maze.NORTH].tunnelTo != null)
+					{
+						path.push(current.neigh[maze.NORTH].tunnelTo);
+						explored.add(current.neigh[maze.NORTH].tunnelTo);
+						maze.drawFtPrt(current.neigh[maze.NORTH].tunnelTo);
+					}
 				
-			} else if(current.neigh[maze.EAST] != null && current.wall[maze.EAST].present == false  && explored.contains(current.neigh[maze.EAST]) == false) {
+				} else if(current.neigh[maze.EAST] != null && current.wall[maze.EAST].present == false  && explored.contains(current.neigh[maze.EAST]) == false) {
 				
-				path.push(current.neigh[maze.EAST]);
-				explored.add(current.neigh[maze.EAST]);
-				maze.drawFtPrt(current.neigh[maze.EAST]);
+					path.push(current.neigh[maze.EAST]);
+					explored.add(current.neigh[maze.EAST]);
+					maze.drawFtPrt(current.neigh[maze.EAST]);
+					
+					if(current.neigh[maze.EAST].tunnelTo != null)
+					{
+						path.push(current.neigh[maze.EAST].tunnelTo);
+						explored.add(current.neigh[maze.EAST].tunnelTo);
+						maze.drawFtPrt(current.neigh[maze.EAST].tunnelTo);
+					}
 				
-			} else if(current.neigh[maze.SOUTH] != null && current.wall[maze.SOUTH].present == false  && explored.contains(current.neigh[maze.SOUTH]) == false) {
+					} else if(current.neigh[maze.SOUTH] != null && current.wall[maze.SOUTH].present == false  && explored.contains(current.neigh[maze.SOUTH]) == false) {
 				
-				path.push(current.neigh[maze.SOUTH]);
-				explored.add(current.neigh[maze.SOUTH]);
-				maze.drawFtPrt(current.neigh[maze.SOUTH]);
+					path.push(current.neigh[maze.SOUTH]);
+					explored.add(current.neigh[maze.SOUTH]);
+					maze.drawFtPrt(current.neigh[maze.SOUTH]);
+					
+					if(current.neigh[maze.SOUTH].tunnelTo != null)
+					{
+						path.push(current.neigh[maze.SOUTH].tunnelTo);
+						explored.add(current.neigh[maze.SOUTH].tunnelTo);
+						maze.drawFtPrt(current.neigh[maze.SOUTH].tunnelTo);
+					}
 				
-			} else {
+					} else {
 				
-				path.pop();
+						path.pop();
 				
-			}
+					}
 				
 			
 				}
