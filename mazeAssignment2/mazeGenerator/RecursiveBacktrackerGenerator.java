@@ -21,6 +21,8 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator {
 		int row = maze.sizeR;
 		int column = maze.sizeC;
 		
+		ArrayList tunnelCells = new ArrayList(); 
+		
 		//Keeps track of all the visited cells and the current path
 		ArrayList visitedCells = new ArrayList(); 
 		Stack path = new Stack();
@@ -29,17 +31,17 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator {
 		int currentRow = generateRow(row);
 		int currentColumn = generateColumn(column);
 		
-		// mark the starting cell as visited
-		// insert into stack
-		
+				
 		// ensures that the starting cell is valid (mostly needed for hex)
-		
 		while(maze.map[currentRow][currentColumn] == null)
 		{
+			// finds a new row and column if its not valid
 			currentRow = generateRow(row);
 			currentColumn = generateColumn(column);
 		}
-
+		
+		// mark the starting cell as visited
+		// insert into stack
 		visitedCells.add(maze.map[currentRow][currentColumn]);
 		path.push(maze.map[currentRow][currentColumn]);
 		
@@ -52,23 +54,31 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator {
 				
 				// use the cell that is currently on top of the stack
 				Cell currentCell = (Cell) path.peek();		
-			
 				// check to see if there is an available neighbor
-					boolean isThereNeighbor = false;
-			
+				boolean isThereNeighbor = false;
+				// mix up the directions
+				Integer[] randDirs = generateRandomDirections();
+			  
+				  
+				if(currentCell.tunnelTo != null)
+				{
+					// this means that the current cell is a tunnel 
+			       // need to access the neighbors
+				
 					
-			  Integer[] randDirs = generateRandomDirections();
-			  
-			  // Examine each direction
-			  
-						  
+					if(tunnelCells.contains(currentCell) == false && tunnelCells.contains(currentCell.tunnelTo) == false)
+					{
+						tunnelCells.add(currentCell);
+					}
+					
+				}
+				
+			  // Examine each direction		  
 			  for (int i = 0; i < randDirs.length; i++) {
-			    	 
-			    	 
-			     if(currentCell.neigh[randDirs[i]] != null && visitedCells.contains(currentCell.neigh[randDirs[i]]) == false)
-			        			
-			        	 {
-			        		 
+				  
+			  			 if(currentCell.neigh[randDirs[i]] != null && visitedCells.contains(currentCell.neigh[randDirs[i]]) == false)
+					 		{
+						        		 
 			        		 // add the new cell to the path and mark it visited
 			        		 	visitedCells.add(currentCell.neigh[randDirs[i]]);
 								path.push(currentCell.neigh[randDirs[i]]);
@@ -79,53 +89,11 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator {
 													
 								
 								isThereNeighbor = true;
-					
 								
-							/*****PROBLEM!
-							 * I can access the neighbors of the other side of the tunnel through: currentCell.neigh[randDirs[i]].tunnelTo.neigh[randDirs[i]]
-							 * 
-							 * I dont even know what they want to happen
-							 * what happens when you find a tunnel? do you go to the other end then continue to generate the maze from there?
-							 * 
-							 * 
-							 * FROM DISCUSSION BOARD: " I think what you need to do is to make sure you know how to select the neighbour for the tunnel neighbours.
-							 *  Basically, the tunnel neighbor is the other side of the tunnel, and you need to access it use the .tunnelTo attribute 
-							 *  of the tunnel cell to find its neighbors." Yongli posted this a couple of times
-							 * 
-							 * I used currentCell.neigh[randDirs[i]].tunnelTo to check if the cell is a tunnel
-							 * 
-							 * My attempt was when you find a tunnel, go to the other side then add that cellto visited and push it into the path
-							 * basically, doing the DFS from there.
-							 * 
-							 * Result	  : sometimes it is perfect, sometimes its not
-							 *            : sometimes it is perfect BUT there are still WALLS around the tunnel
-							 *            
-							 * 
-							 * *****/
-								
-							  if(currentCell.neigh[randDirs[i]].tunnelTo != null)
-								  {
-								  
-								  if(currentCell.neigh[randDirs[i]].tunnelTo.neigh[randDirs[i]] != null)
-								  {
-									 // To access the neighbors of the other side of the tunnel
-								  }
-									 
-								  	  visitedCells.add(currentCell.neigh[randDirs[i]].tunnelTo.neigh[randDirs[i]]);
-									  path.push(currentCell.neigh[randDirs[i]].tunnelTo.neigh[randDirs[i]]);
-									
-									 // currentCell.neigh[randDirs[i]].wall[randDirs[i]].present = false; 
-									 
-								  } 
-								
-							
-					
 								  break;
-								
-								
 				        	 
 			        	 }
-			        	
+			     
 			    	 		    	 
 			        	 if(i == (randDirs.length-1) && isThereNeighbor == false ) 
 			        	 {
@@ -134,54 +102,95 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator {
 			        		 // checked again if there's available neighbor
 			        		 path.pop();
 			        		 break;
-					
-												
+											
 			        	 }
+			        	 
 		
-			   }
+			   } // end of for loop
+			  
 		  }
-	  }
 		  
+	  } // every cell is visited
+	  
+	  
+	  changeNeighOfTunnels(tunnelCells, maze); 
 	
 	} // end of generateMaze()
 	
 	
+	
+	/** ISSUE **/
+	/* Have the same exact problem with the one posted on discussion board
+	 * 
+	 * Yongli's response: "Some other students also reported this. I think what you need to do is to make sure you know how to select 
+	 * the neighbour for the tunnel neighbours. Basically, the tunnel neighbour is the other side of the tunnel, and you need to access it use the . tunnelTo  
+	 * attribute of the tunnel cell to find its neighbours. This is different from the normal cells. Thanks."
+	 * 
+	 * It needs to satisfy the isPerfect() function of tunnel
+	 * 
+	 * What do we need to do after we found a cell with tunnels/ (via currentCell.tunnelTo != null)
+	 * 
+	 * Attempt #1: Whenever a tunnel is found, go to the other side of that tunnel and continue the maze generation from here
+	 * Result: random chance of generating a perfect maze, some perfect maze have walls around some cells (i.e the only way you can go to some cells is through the portal)
+	 * 
+	 * Attempt #2: Generate the maze like normal maze then swap the neighbors of the tunnelcell
+	 * Result: If i run it on normal maze, it is perfect but if i run it on tunnels its not
+	 * 
+	 */
+	
+	
 	public boolean isAllVisited(Maze m, ArrayList aL) {
 		
-		if(m.type == m.HEX)
-		{
-			for (int i = 0; i < m.sizeR; i++){
-				
+		if(m.type == m.HEX) {
+			for (int i = 0; i < m.sizeR; i++) {
 				for (int j = (i + 1) / 2; j < m.sizeC + (i + 1) / 2; j++) {
-						
-						if(!aL.contains(m.map[i][j])) {
+					if(!aL.contains(m.map[i][j])) {
 							return false;
-						}
+					}
 				}
 			}
-		} 
-		else
-		{
+		} else {
+			for(int i = 0; i < m.sizeR; i++) {
+				for(int j = 0; j < m.sizeC; j++) {
+					if(!aL.contains(m.map[i][j])) {
+							return false;
+					}
+				}
+			}
+		}
+	
+		System.out.println("~ALL CELLS VISITED");
+
+		return true;
+	
+	}
+	
+	public void changeNeighOfTunnels(ArrayList tunns, Maze maze) {
 			
-			for(int i = 0; i < m.sizeR; i++)
+		for(int i = 0; i < tunns.size(); i++)
 		{
-			for(int j = 0; j < m.sizeC; j++)
+			for(int j = 0; j < 6; j++)
 			{
-				if(!aL.contains(m.map[i][j])) {
-					return false;
-				}
+				Cell curr =  (Cell) tunns.get(i);
+				Cell[] temp = new Cell[6];
+
+				
+			// curr cant be null but their neighbors can be null
+				
+				temp[j] = curr.neigh[j];
+				
+				// update the neigh of the curr cell
+				
+								
+				curr.neigh[j] = curr.tunnelTo.neigh[j];
+				
+				curr.tunnelTo.neigh[j] = temp[j];
+						
+		
+							
 			}
-		}
-	
 			
 		}
-	
-		
-
-	return true;
-	
-
-
 	}
 
 
