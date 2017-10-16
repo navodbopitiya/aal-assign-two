@@ -21,11 +21,25 @@ public class BiDirectionalRecursiveBacktrackerSolver implements MazeSolver {
 
 		Stack<Cell> entrancePath = new Stack<Cell>();
 		Stack<Cell> exitPath = new Stack<Cell>();
-
-		boolean entranceVisited[][] = new boolean[maze.sizeR][maze.sizeC];
-		boolean exitVisited[][] = new boolean[maze.sizeR][maze.sizeC];
+		
+		boolean entranceVisited[][] = null;
+		boolean exitVisited[][] = null;
+		
+		if(maze.type == maze.HEX) {
+			// adjusts the max column for hex
+			
+			 entranceVisited = new boolean[maze.sizeR][(maze.sizeC+1)/2+maze.sizeC];
+			
+			 exitVisited = new boolean[maze.sizeR][(maze.sizeC+1)/2+maze.sizeC];
+			
+		} else {
+			
+			 entranceVisited = new boolean[maze.sizeR][maze.sizeC];
+			 exitVisited = new boolean[maze.sizeR][maze.sizeC];
+		}
+		
 		boolean isSolved = false;
-
+		
 		while(isSolved == false){
 			//Solve from both the entrance and exit step by step
 			entranceCellSolver = solverStep(entranceCellSolver, entrancePath, entranceVisited, maze);
@@ -69,11 +83,12 @@ public class BiDirectionalRecursiveBacktrackerSolver implements MazeSolver {
 	} // end of cellsExplored()
 
 	Cell solverStep(Cell cellSolver, Stack<Cell> path, boolean[][] visitedCells, Maze maze){
-		//Get possible neighbour cells to visist
+		//Get possible neighbour cells to visit
 		ArrayList<Cell> unvisitedNeighbours = getUnvisitedNeighbours(cellSolver, visitedCells, maze);
 
 		//If current cell is not set as visited, set it to visited.
-		if(!visitedCells[cellSolver.r][cellSolver.c]){
+	
+	if(!visitedCells[cellSolver.r][cellSolver.c]){
 			visitedCells[cellSolver.r][cellSolver.c] = true;
 			maze.drawFtPrt(cellSolver);
 		}
@@ -86,21 +101,34 @@ public class BiDirectionalRecursiveBacktrackerSolver implements MazeSolver {
 			maze.drawFtPrt(cellSolver);
 		}else{
 		//If there aren't any unvisited neighbours, then backtrack to the last cell.
-			cellSolver = path.pop();
+			
+			if(!path.isEmpty())
+			{
+				cellSolver = path.pop();
+			} 
+			else {
+					return cellSolver;
+			}
+			
+			
 
-		}
+		} 
 
 		return cellSolver;
 	}//end of solverStep
 
 	ArrayList<Cell> getUnvisitedNeighbours(Cell b, boolean[][] visitedCells, Maze m){
+		
 		ArrayList<Cell> neighbours = new ArrayList<Cell>();
-
+	
 		for(int i = 0; i < Maze.NUM_DIR; i++){
-
 			Cell checkCell = b.neigh[i];
+			
+			
 			if(checkCell != null){
-				if(!b.wall[i].present && !visitedCells[checkCell.r][checkCell.c]){
+			
+				if(!b.wall[i].present){
+					if(!visitedCells[checkCell.r][checkCell.c])
 					//If there isn't a wall present and we haven't visited it before, add it to neighbours
 					neighbours.add(checkCell);
 				}
