@@ -66,6 +66,7 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator {
 					// change the the top of the stack to the end of the tunnel
 					visitedCells.add(currentCell.tunnelTo);
 					path.push(currentCell.tunnelTo);
+					currentCell = (Cell) path.peek();
 					
 				}
 				
