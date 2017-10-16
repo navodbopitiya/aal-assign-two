@@ -21,11 +21,11 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator {
 		int row = maze.sizeR;
 		int column = maze.sizeC;
 		
-		ArrayList tunnelCells = new ArrayList(); 
+		ArrayList<Cell> tunnelCells = new ArrayList<Cell>(); 
 		
 		//Keeps track of all the visited cells and the current path
-		ArrayList visitedCells = new ArrayList(); 
-		Stack path = new Stack();
+		ArrayList<Cell> visitedCells = new ArrayList<Cell>(); 
+		Stack<Cell> path = new Stack<Cell>();
 		
 		// pick a random starting cell
 		int currentRow = generateRow(row);
@@ -60,7 +60,7 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator {
 				Integer[] randDirs = generateRandomDirections();
 			  
 				  
-				if(currentCell.tunnelTo != null)
+				if(maze.type == Maze.TUNNEL && currentCell.tunnelTo != null && visitedCells.contains(currentCell.tunnelTo) == false)
 				{
 					// The current cell aka the top of the stack is a tunnel
 					// change the the top of the stack to the end of the tunnel
@@ -133,9 +133,9 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator {
 	 */
 	
 	
-	public boolean isAllVisited(Maze m, ArrayList aL) {
+	public boolean isAllVisited(Maze m, ArrayList<Cell> aL) {
 		
-		if(m.type == m.HEX) {
+		if(m.type == Maze.HEX) {
 			for (int i = 0; i < m.sizeR; i++) {
 				for (int j = (i + 1) / 2; j < m.sizeC + (i + 1) / 2; j++) {
 					if(!aL.contains(m.map[i][j])) {
@@ -159,7 +159,7 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator {
 	
 	}
 	
-	public void changeNeighOfTunnels(ArrayList tunns, Maze maze) {
+	public void changeNeighOfTunnels(ArrayList<Cell> tunns, Maze maze) {
 			
 		for(int i = 0; i < tunns.size(); i++)
 		{
