@@ -1,38 +1,20 @@
 package mazeSolver;
 
 import java.util.ArrayList;
-<<<<<<< HEAD
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.Stack;
-
-import maze.Cell;
-import maze.Maze;
-=======
 import java.util.Random;
 import java.util.Stack;
 
 import maze.*;
->>>>>>> branch 'master' of https://github.com/rmit-s3617221-navod-bopitiya/aal-assign-two.git
 
 /**
  * Implements the BiDirectional recursive backtracking maze solving algorithm.
  */
 public class BiDirectionalRecursiveBacktrackerSolver implements MazeSolver {
-<<<<<<< HEAD
-	
-=======
 	Random random = new Random();
 
->>>>>>> branch 'master' of https://github.com/rmit-s3617221-navod-bopitiya/aal-assign-two.git
 	@Override
 	public void solveMaze(Maze maze) {
 		// TODO Auto-generated method stub
-<<<<<<< HEAD
-		
-	}
-		
-=======
 
 		Cell entranceCellSolver = maze.entrance;
 		Cell exitCellSolver =  maze.exit;
@@ -72,18 +54,11 @@ public class BiDirectionalRecursiveBacktrackerSolver implements MazeSolver {
 	} // end of solveMaze()
 
 
->>>>>>> branch 'master' of https://github.com/rmit-s3617221-navod-bopitiya/aal-assign-two.git
 	@Override
 	public boolean isSolved() {
-<<<<<<< HEAD
-		return false;
-		// TODO Auto-generated method stub
-	
-=======
 		// TODO Auto-generated method stud
 		return true;
 
->>>>>>> branch 'master' of https://github.com/rmit-s3617221-navod-bopitiya/aal-assign-two.git
 	} // end if isSolved()
 
 
@@ -92,10 +67,6 @@ public class BiDirectionalRecursiveBacktrackerSolver implements MazeSolver {
 		// TODO Auto-generated method stub
 		return 0;
 	} // end of cellsExplored()
-<<<<<<< HEAD
-	
-	
-=======
 
 	Cell solverStep(Cell cellSolver, Stack<Cell> path, boolean[][] visitedCells, Maze maze){
 		//Get possible neighbour cells to visist
@@ -138,5 +109,4 @@ public class BiDirectionalRecursiveBacktrackerSolver implements MazeSolver {
 		return neighbours;
 	}//end of getUnvisitedNeighbours
 
->>>>>>> branch 'master' of https://github.com/rmit-s3617221-navod-bopitiya/aal-assign-two.git
 } // end of class BiDirectionalRecursiveBackTrackerSolver
