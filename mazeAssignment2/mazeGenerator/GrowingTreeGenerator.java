@@ -99,7 +99,7 @@ public class GrowingTreeGenerator implements MazeGenerator {
 	}
 
 	int selectStrategy(){
-		int[] strategy = {RANDOM,RANDOM,RANDOM,RECENT};
+		int[] strategy = {RANDOM,RANDOM,RANDOM,RANDOM,RANDOM,RANDOM,RANDOM,RANDOM,RECENT}; //9/10 is random - 90%, 1/10 is Recent - 10%
 		return strategy[random.nextInt(strategy.length)];
 	}
 
