@@ -99,6 +99,11 @@ public class BiDirectionalRecursiveBacktrackerSolver implements MazeSolver {
 			path.push(cellSolver);
 			cellSolver = unvisitedNeighbours.get(random.nextInt(unvisitedNeighbours.size()));
 			maze.drawFtPrt(cellSolver);
+			if(cellSolver.tunnelTo != null){
+				//cellSolver is in a tunnel - so move into it
+				cellSolver = cellSolver.tunnelTo;
+				maze.drawFtPrt(cellSolver);
+			}
 		}else{
 		//If there aren't any unvisited neighbours, then backtrack to the last cell.
 			
