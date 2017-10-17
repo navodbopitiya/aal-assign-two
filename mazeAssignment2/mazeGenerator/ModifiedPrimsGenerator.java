@@ -106,12 +106,8 @@ public class ModifiedPrimsGenerator implements MazeGenerator {
 	}
 	
 	boolean checkVisited(Cell b, ArrayList<Cell> visitedCells){
-		boolean visited = false;
-		if(visitedCells.contains(b)){
-			visited = true;
+		return visitedCells.contains(b);
 		}
-		return visited;
-	}
 
 
 } // end of class ModifiedPrimsGenerator
