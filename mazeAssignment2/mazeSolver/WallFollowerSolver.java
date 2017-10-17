@@ -27,7 +27,7 @@ public class WallFollowerSolver implements MazeSolver {
 		 curr = maze.entrance;
 		 end = maze.exit;
 		
-		 // add the starting cell to the explored arraylist and pushedit on the stack
+		// add the starting cell to the explored arraylist and pushedit on the stack
 		explored.add(curr);
 		path.push(curr);
 		
@@ -40,12 +40,20 @@ public class WallFollowerSolver implements MazeSolver {
 			if(!path.isEmpty()) {	
 			Cell current = (Cell) path.peek();
 			
+			
+			// Follows the left wall
+			// if the maze type is hex it has more directions
 			if(maze.type == maze.HEX)
 			{
+				
+				// checks if the cell is not null, there is not a wall present and its not explored by the solver yet
 				if(current.neigh[maze.WEST] != null && current.wall[maze.WEST].present == false && explored.contains(current.neigh[maze.WEST]) == false)
 				{
+					// add to path
 					path.push(current.neigh[maze.WEST]);
+					//add to exploerd
 					explored.add(current.neigh[maze.WEST]);
+					//draw
 					maze.drawFtPrt(current.neigh[maze.WEST]);
 					
 				} else if (current.neigh[maze.NORTHWEST] != null && current.wall[maze.NORTHWEST].present == false  && explored.contains(current.neigh[maze.NORTHWEST]) == false)
@@ -87,16 +95,15 @@ public class WallFollowerSolver implements MazeSolver {
 			} 
 			else 
 			{
-			
-			// Prioritizes going left of the maze
-			
-			// checks if the maze is not null, there isnt a wall present and its not explored by the solver yet
+		
 				if(current.neigh[maze.WEST] != null && current.wall[maze.WEST].present == false && explored.contains(current.neigh[maze.WEST]) == false)
 				{
 					path.push(current.neigh[maze.WEST]);
 					explored.add(current.neigh[maze.WEST]);
 					maze.drawFtPrt(current.neigh[maze.WEST]);
 					
+					// Checks if the cell is a tunnel
+					// If it is then 'jump' to the other side
 					if(current.neigh[maze.WEST].tunnelTo != null)
 					{
 						path.push(current.neigh[maze.WEST].tunnelTo);
@@ -166,8 +173,7 @@ public class WallFollowerSolver implements MazeSolver {
 		// TODO Auto-generated method stub
 		
 		// Maze is considered solved if the 'path' contains the exit of the maze
-	
-			
+				
 		if(path.contains(end))
 		{
 			return true;
