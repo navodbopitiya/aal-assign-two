@@ -13,8 +13,6 @@ public class ModifiedPrimsGenerator implements MazeGenerator {
 		int maxRows = maze.sizeR;
 		int maxCols = maze.sizeC;
 		
-		int dir = 0;
-
 		Random random = new Random();
 		int randomValue;
 		Cell rndCellB;
@@ -22,7 +20,14 @@ public class ModifiedPrimsGenerator implements MazeGenerator {
 		ArrayList<Cell> visitedCells = new ArrayList<Cell>();
 
 		//Pick a random starting cell
-		Cell startingCell = maze.map[random.nextInt(maxRows)][random.nextInt(maxCols)];
+		int randomRow = random.nextInt(maxRows);
+		int randomCol = random.nextInt(maxCols);
+		while(maze.map[randomRow][randomCol] == null)
+		{
+			randomRow = random.nextInt(maxRows);
+			randomCol = random.nextInt(maxCols);
+		}
+		Cell startingCell = maze.map[randomRow][randomCol];
 
 		//Add to Set Z - IN SET
 		ArrayList<Cell> cellSetZ = new ArrayList<Cell>();
