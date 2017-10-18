@@ -18,8 +18,8 @@ public class WallFollowerSolver implements MazeSolver {
 	Cell curr;
 	Cell end;
 	
-	Stack path = new Stack();
-	ArrayList explored = new ArrayList();
+	Stack<Cell> path = new Stack<Cell>();
+	ArrayList<Cell> explored = new ArrayList<Cell>();
 		
 	@Override
 	public void solveMaze(Maze maze) {
@@ -45,49 +45,49 @@ public class WallFollowerSolver implements MazeSolver {
 			
 			// Follows the left wall
 			// if the maze type is hex it has more directions
-			if(maze.type == maze.HEX)
+			if(maze.type == Maze.HEX)
 			{
 				
 				// checks if the cell is not null, there is not a wall present and its not explored by the solver yet
-				if(current.neigh[maze.WEST] != null && current.wall[maze.WEST].present == false && explored.contains(current.neigh[maze.WEST]) == false)
+				if(current.neigh[Maze.WEST] != null && current.wall[Maze.WEST].present == false && explored.contains(current.neigh[Maze.WEST]) == false)
 				{
 					// add to path
-					path.push(current.neigh[maze.WEST]);
+					path.push(current.neigh[Maze.WEST]);
 					//add to exploerd
-					explored.add(current.neigh[maze.WEST]);
+					explored.add(current.neigh[Maze.WEST]);
 					//draw
-					maze.drawFtPrt(current.neigh[maze.WEST]);
+					maze.drawFtPrt(current.neigh[Maze.WEST]);
 					
-				} else if (current.neigh[maze.NORTHWEST] != null && current.wall[maze.NORTHWEST].present == false  && explored.contains(current.neigh[maze.NORTHWEST]) == false)
+				} else if (current.neigh[Maze.NORTHWEST] != null && current.wall[Maze.NORTHWEST].present == false  && explored.contains(current.neigh[Maze.NORTHWEST]) == false)
 				{
 					
-					path.push(current.neigh[maze.NORTHWEST]);
-					explored.add(current.neigh[maze.NORTHWEST]);
-					maze.drawFtPrt(current.neigh[maze.NORTHWEST]);
+					path.push(current.neigh[Maze.NORTHWEST]);
+					explored.add(current.neigh[Maze.NORTHWEST]);
+					maze.drawFtPrt(current.neigh[Maze.NORTHWEST]);
 					
-				} else if(current.neigh[maze.NORTHEAST] != null && current.wall[maze.NORTHEAST].present == false  && explored.contains(current.neigh[maze.NORTHEAST]) == false) {
+				} else if(current.neigh[Maze.NORTHEAST] != null && current.wall[Maze.NORTHEAST].present == false  && explored.contains(current.neigh[Maze.NORTHEAST]) == false) {
 					
-					path.push(current.neigh[maze.NORTHEAST]);
-					explored.add(current.neigh[maze.NORTHEAST]);
-					maze.drawFtPrt(current.neigh[maze.NORTHEAST]);
+					path.push(current.neigh[Maze.NORTHEAST]);
+					explored.add(current.neigh[Maze.NORTHEAST]);
+					maze.drawFtPrt(current.neigh[Maze.NORTHEAST]);
 					
-				} else if(current.neigh[maze.EAST] != null && current.wall[maze.EAST].present == false  && explored.contains(current.neigh[maze.EAST]) == false) {
+				} else if(current.neigh[Maze.EAST] != null && current.wall[Maze.EAST].present == false  && explored.contains(current.neigh[Maze.EAST]) == false) {
 					
-					path.push(current.neigh[maze.EAST]);
-					explored.add(current.neigh[maze.EAST]);
-					maze.drawFtPrt(current.neigh[maze.EAST]);
+					path.push(current.neigh[Maze.EAST]);
+					explored.add(current.neigh[Maze.EAST]);
+					maze.drawFtPrt(current.neigh[Maze.EAST]);
 					
-				} else if(current.neigh[maze.SOUTHEAST] != null && current.wall[maze.SOUTHEAST].present == false  && explored.contains(current.neigh[maze.SOUTHEAST]) == false) {
+				} else if(current.neigh[Maze.SOUTHEAST] != null && current.wall[Maze.SOUTHEAST].present == false  && explored.contains(current.neigh[Maze.SOUTHEAST]) == false) {
 					
-					path.push(current.neigh[maze.SOUTHEAST]);
-					explored.add(current.neigh[maze.SOUTHEAST]);
-					maze.drawFtPrt(current.neigh[maze.SOUTHEAST]);
+					path.push(current.neigh[Maze.SOUTHEAST]);
+					explored.add(current.neigh[Maze.SOUTHEAST]);
+					maze.drawFtPrt(current.neigh[Maze.SOUTHEAST]);
 					
-				} else if(current.neigh[maze.SOUTHWEST] != null && current.wall[maze.SOUTHWEST].present == false  && explored.contains(current.neigh[maze.SOUTHWEST]) == false) {
+				} else if(current.neigh[Maze.SOUTHWEST] != null && current.wall[Maze.SOUTHWEST].present == false  && explored.contains(current.neigh[Maze.SOUTHWEST]) == false) {
 					
-					path.push(current.neigh[maze.SOUTHWEST]);
-					explored.add(current.neigh[maze.SOUTHWEST]);
-					maze.drawFtPrt(current.neigh[maze.SOUTHWEST]);
+					path.push(current.neigh[Maze.SOUTHWEST]);
+					explored.add(current.neigh[Maze.SOUTHWEST]);
+					maze.drawFtPrt(current.neigh[Maze.SOUTHWEST]);
 					
 				} else {
 					
@@ -98,60 +98,60 @@ public class WallFollowerSolver implements MazeSolver {
 			else 
 			{
 		
-				if(current.neigh[maze.WEST] != null && current.wall[maze.WEST].present == false && explored.contains(current.neigh[maze.WEST]) == false)
+				if(current.neigh[Maze.WEST] != null && current.wall[Maze.WEST].present == false && explored.contains(current.neigh[Maze.WEST]) == false)
 				{
-					path.push(current.neigh[maze.WEST]);
-					explored.add(current.neigh[maze.WEST]);
-					maze.drawFtPrt(current.neigh[maze.WEST]);
+					path.push(current.neigh[Maze.WEST]);
+					explored.add(current.neigh[Maze.WEST]);
+					maze.drawFtPrt(current.neigh[Maze.WEST]);
 					
 					// Checks if the cell is a tunnel
 					// If it is then 'jump' to the other side
-					if(current.neigh[maze.WEST].tunnelTo != null)
+					if(current.neigh[Maze.WEST].tunnelTo != null)
 					{
-						path.push(current.neigh[maze.WEST].tunnelTo);
-						explored.add(current.neigh[maze.WEST].tunnelTo);
-						maze.drawFtPrt(current.neigh[maze.WEST].tunnelTo);
+						path.push(current.neigh[Maze.WEST].tunnelTo);
+						explored.add(current.neigh[Maze.WEST].tunnelTo);
+						maze.drawFtPrt(current.neigh[Maze.WEST].tunnelTo);
 					}
 				
-				} else if (current.neigh[maze.NORTH] != null && current.wall[maze.NORTH].present == false  && explored.contains(current.neigh[maze.NORTH]) == false)
+				} else if (current.neigh[Maze.NORTH] != null && current.wall[Maze.NORTH].present == false  && explored.contains(current.neigh[Maze.NORTH]) == false)
 				{
 				
-					path.push(current.neigh[maze.NORTH]);
-					explored.add(current.neigh[maze.NORTH]);
-					maze.drawFtPrt(current.neigh[maze.NORTH]);
+					path.push(current.neigh[Maze.NORTH]);
+					explored.add(current.neigh[Maze.NORTH]);
+					maze.drawFtPrt(current.neigh[Maze.NORTH]);
 					
 					
-					if(current.neigh[maze.NORTH].tunnelTo != null)
+					if(current.neigh[Maze.NORTH].tunnelTo != null)
 					{
-						path.push(current.neigh[maze.NORTH].tunnelTo);
-						explored.add(current.neigh[maze.NORTH].tunnelTo);
-						maze.drawFtPrt(current.neigh[maze.NORTH].tunnelTo);
+						path.push(current.neigh[Maze.NORTH].tunnelTo);
+						explored.add(current.neigh[Maze.NORTH].tunnelTo);
+						maze.drawFtPrt(current.neigh[Maze.NORTH].tunnelTo);
 					}
 				
-				} else if(current.neigh[maze.EAST] != null && current.wall[maze.EAST].present == false  && explored.contains(current.neigh[maze.EAST]) == false) {
+				} else if(current.neigh[Maze.EAST] != null && current.wall[Maze.EAST].present == false  && explored.contains(current.neigh[Maze.EAST]) == false) {
 				
-					path.push(current.neigh[maze.EAST]);
-					explored.add(current.neigh[maze.EAST]);
-					maze.drawFtPrt(current.neigh[maze.EAST]);
+					path.push(current.neigh[Maze.EAST]);
+					explored.add(current.neigh[Maze.EAST]);
+					maze.drawFtPrt(current.neigh[Maze.EAST]);
 					
-					if(current.neigh[maze.EAST].tunnelTo != null)
+					if(current.neigh[Maze.EAST].tunnelTo != null)
 					{
-						path.push(current.neigh[maze.EAST].tunnelTo);
-						explored.add(current.neigh[maze.EAST].tunnelTo);
-						maze.drawFtPrt(current.neigh[maze.EAST].tunnelTo);
+						path.push(current.neigh[Maze.EAST].tunnelTo);
+						explored.add(current.neigh[Maze.EAST].tunnelTo);
+						maze.drawFtPrt(current.neigh[Maze.EAST].tunnelTo);
 					}
 				
-					} else if(current.neigh[maze.SOUTH] != null && current.wall[maze.SOUTH].present == false  && explored.contains(current.neigh[maze.SOUTH]) == false) {
+					} else if(current.neigh[Maze.SOUTH] != null && current.wall[Maze.SOUTH].present == false  && explored.contains(current.neigh[Maze.SOUTH]) == false) {
 				
-					path.push(current.neigh[maze.SOUTH]);
-					explored.add(current.neigh[maze.SOUTH]);
-					maze.drawFtPrt(current.neigh[maze.SOUTH]);
+					path.push(current.neigh[Maze.SOUTH]);
+					explored.add(current.neigh[Maze.SOUTH]);
+					maze.drawFtPrt(current.neigh[Maze.SOUTH]);
 					
-					if(current.neigh[maze.SOUTH].tunnelTo != null)
+					if(current.neigh[Maze.SOUTH].tunnelTo != null)
 					{
-						path.push(current.neigh[maze.SOUTH].tunnelTo);
-						explored.add(current.neigh[maze.SOUTH].tunnelTo);
-						maze.drawFtPrt(current.neigh[maze.SOUTH].tunnelTo);
+						path.push(current.neigh[Maze.SOUTH].tunnelTo);
+						explored.add(current.neigh[Maze.SOUTH].tunnelTo);
+						maze.drawFtPrt(current.neigh[Maze.SOUTH].tunnelTo);
 					}
 				
 					} else {
