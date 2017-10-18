@@ -1,5 +1,7 @@
 package mazeSolver;
 
+/** Author -  Adrian Nacor **/
+
 import java.util.ArrayList;
 import java.util.Stack;
 

@@ -1,5 +1,7 @@
 package mazeSolver;
 
+/** Author -  Navod Bopitiya - s3617222 **/
+
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Stack;
@@ -16,20 +18,18 @@ public class BiDirectionalRecursiveBacktrackerSolver implements MazeSolver {
 	public void solveMaze(Maze maze) {
 		// TODO Auto-generated method stub
 
-		Cell entranceCellSolver = maze.entrance;
-		Cell exitCellSolver =  maze.exit;
+		Cell entranceCellSolver = maze.entrance; // Cell That solves from the entrance
+		Cell exitCellSolver =  maze.exit; //Cell that solves from the exit
 
-		Stack<Cell> entrancePath = new Stack<Cell>();
-		Stack<Cell> exitPath = new Stack<Cell>();
+		Stack<Cell> entrancePath = new Stack<Cell>(); //The path the entrance Cell takes
+		Stack<Cell> exitPath = new Stack<Cell>(); //The path the exit Cell takes
 
-		boolean entranceVisited[][] = null;
-		boolean exitVisited[][] = null;
+		boolean entranceVisited[][] = null; //All visited cells of the entrance Cell
+		boolean exitVisited[][] = null; //All visited cells of the exit cell
 
 		if(maze.type == maze.HEX) {
 			// adjusts the max column for hex
-
-			entranceVisited = new boolean[maze.sizeR][(maze.sizeC+1)/2+maze.sizeC];
-
+			entranceVisited = new boolean[maze.sizeR][(maze.sizeC+1)/2+maze.sizeC]; 
 			exitVisited = new boolean[maze.sizeR][(maze.sizeC+1)/2+maze.sizeC];
 
 		} else {
@@ -38,7 +38,8 @@ public class BiDirectionalRecursiveBacktrackerSolver implements MazeSolver {
 			exitVisited = new boolean[maze.sizeR][maze.sizeC];
 		}
 
-		recursiveSolve(maze, entranceCellSolver, exitCellSolver, entrancePath, exitPath, entranceVisited, exitVisited);
+		recursiveSolve(maze, entranceCellSolver, exitCellSolver, entrancePath, exitPath, entranceVisited, exitVisited); //solve the maze recursively till the paths meet
+		//, or one cell reaches the exit or entrance
 
 
 
@@ -58,12 +59,8 @@ public class BiDirectionalRecursiveBacktrackerSolver implements MazeSolver {
 			isSolved = true;
 		}
 
-		//Check if the exit path has visited the entranceCellSolver Cell
-		if(exitPath.contains(entranceCellSolver)){
-			isSolved = true;
-		}
-		//check if the entrance path has visited the exitCellSolver cell
-		if(entrancePath.contains(exitCellSolver)){
+		//Check if the exit path has visited the entranceCellSolver Cell or if the entrancePath has visited the exitCellSolver cell
+		if(exitPath.contains(entranceCellSolver) || entrancePath.contains(exitCellSolver)){
 			isSolved = true;
 		}
 
@@ -98,6 +95,7 @@ public class BiDirectionalRecursiveBacktrackerSolver implements MazeSolver {
 		if(!visitedCells[cellSolver.r][cellSolver.c]){
 			visitedCells[cellSolver.r][cellSolver.c] = true;
 			maze.drawFtPrt(cellSolver);
+			//Draw the path
 		}
 
 
@@ -110,6 +108,7 @@ public class BiDirectionalRecursiveBacktrackerSolver implements MazeSolver {
 				//cellSolver is in a tunnel - so move into it
 				cellSolver = cellSolver.tunnelTo;
 				maze.drawFtPrt(cellSolver);
+				//Draw the path
 			}
 		}else{
 			//If there aren't any unvisited neighbours, then backtrack to the last cell.
@@ -119,6 +118,7 @@ public class BiDirectionalRecursiveBacktrackerSolver implements MazeSolver {
 				cellSolver = path.pop();
 			} 
 			else {
+				//If path is empty, return the cellSolver.
 				return cellSolver;
 			}
 
@@ -135,10 +135,8 @@ public class BiDirectionalRecursiveBacktrackerSolver implements MazeSolver {
 
 		for(int i = 0; i < Maze.NUM_DIR; i++){
 			Cell checkCell = b.neigh[i];
-
-
 			if(checkCell != null){
-
+				//if the neighbour isn't null
 				if(!b.wall[i].present){
 					if(!visitedCells[checkCell.r][checkCell.c])
 						//If there isn't a wall present and we haven't visited it before, add it to neighbours

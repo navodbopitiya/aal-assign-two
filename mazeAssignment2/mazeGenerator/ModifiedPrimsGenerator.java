@@ -1,5 +1,8 @@
 package mazeGenerator;
 
+/** Author -  Navod Bopitiya - s3617222 **/
+
+
 import java.util.*;
 
 import maze.*;
@@ -53,18 +56,18 @@ public class ModifiedPrimsGenerator implements MazeGenerator {
 			//Randomly select a cell b from setZ and adjacent to cell c
 			randomValue = random.nextInt(cellSetZ.size());
 			rndCellB = cellSetZ.get(randomValue);
-			boolean isAdjacent = checkAdjacent(rndCellB, rndCellC);
-			while(!isAdjacent){
+			int neighbourId = checkNeighbour(rndCellB, rndCellC);
+			while(neighbourId == -1){
 				randomValue = random.nextInt(cellSetZ.size());
 				rndCellB = cellSetZ.get(randomValue);
-				isAdjacent = checkAdjacent(rndCellB, rndCellC);
+				neighbourId = checkNeighbour(rndCellB, rndCellC);
 			}
 
-			//Carve path between c and b
-			rndCellC.wall[getNeighbourId(rndCellB,rndCellC)].present = false;
+			//Carve path between B and C
+			rndCellB.wall[neighbourId].present = false;
 			visitedCells.add(rndCellC);
 
-			//Add cell c to set Z
+			//Add cell C to set Z
 			cellSetZ.add(rndCellC);
 
 			//Add neighbours of cell c to the set F
@@ -79,35 +82,17 @@ public class ModifiedPrimsGenerator implements MazeGenerator {
 
 	}
 
-	boolean checkAdjacent(Cell b, Cell c){
-		boolean isAdjacent = false;
+	int checkNeighbour(Cell b, Cell c){ // Checks if Cell B is adjacent C
+		int id = -1;
 		for(int i = 0; i < b.neigh.length; i++){
 			if(b.neigh[i] != null){
 				if(b.neigh[i].equals(c)){
-					isAdjacent = true;
-					return isAdjacent;
+					id = i;
+					return id;
 				}
 			}
 		}
-		return isAdjacent;
+		return id;
 	}
-
-	int getNeighbourId(Cell b, Cell c) {
-		int neighId = 0;
-		for (int i = 0; i < c.neigh.length; i++) {
-			if(c.neigh[i] != null){
-				if (c.neigh[i].equals(b)) {
-					neighId = i;
-				}
-			}
-
-		}
-		return neighId;
-	}
-	
-	boolean checkVisited(Cell b, ArrayList<Cell> visitedCells){
-		return visitedCells.contains(b);
-		}
-
 
 } // end of class ModifiedPrimsGenerator

@@ -1,5 +1,8 @@
 package mazeGenerator;
 
+/** Author -  Navod Bopitiya - s3617222 **/
+
+
 import java.util.*;
 
 import maze.Maze;
@@ -86,7 +89,7 @@ public class GrowingTreeGenerator implements MazeGenerator {
 		}//10-Repeat from step 3 till cellSetZ is empty
 
 
-	}
+	}// end of generateMaze()
 
 	ArrayList<Cell> getUnVisitedNeighbourCells(Cell b, ArrayList<Cell> visitedCells){
 		ArrayList<Cell> neighbourCells = new ArrayList<Cell>();
